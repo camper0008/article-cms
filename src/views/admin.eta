@@ -1,0 +1,16 @@
+<% layout("base.eta") %>
+
+<% if (!it.mode) { %>
+<h1>admin</h1>
+<ul>
+    <li>
+        <a href="?mode=create">new post</a>
+    </li>
+    <li>
+        <a href="?mode=edit">edit post</a>
+    </li>
+</ul>
+<% } else { %>
+<h1><%= it.mode %> post</h1>
+<% } %>
+

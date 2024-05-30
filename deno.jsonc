@@ -3,6 +3,6 @@
         "indentWidth": 4
     },
     "tasks": {
-      "dev": "deno run --allow-read --allow-net --watch main.ts"
+      "dev": "deno run --allow-read --allow-net --watch src/main.ts"
     }
 }

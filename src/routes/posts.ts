@@ -1,18 +1,7 @@
-import { Application, Router } from "https://deno.land/x/oak@v16.0.0/mod.ts";
 import { Eta } from "https://deno.land/x/eta@v3.1.0/src/index.ts";
-import { join } from "https://deno.land/std@0.224.0/path/mod.ts";
-
-import { format_date } from "./format_date.ts";
-
-function log(
-    message: string,
-    level: "fatal error" | "error" | "warning" | "info" = "info",
-) {
-    console.log(`${level}: ${message}`);
-    if (level === "fatal error") {
-        throw new Error("fatal error reached");
-    }
-}
+import { Router } from "https://deno.land/x/oak@v16.0.0/mod.ts";
+import { format_date } from "../utils/format_date.ts";
+import { slugify_title } from "../utils/slugify_title.ts";
 
 interface PostEntry {
     title: string;
@@ -50,26 +39,13 @@ function sort_posts(posts: PostEntry[]): PostEntry[] {
     });
 }
 
-function slugify_title(title: string): string {
-    return title.toLowerCase().replaceAll(" ", "-").replaceAll(/[^\w-_]+/g, "");
-}
-
-async function main() {
-    const dirname = import.meta.dirname;
-    if (!dirname) {
-        log("unable to read dirname", "fatal error");
-        return;
-    }
-    const port = 8000;
-    const eta = new Eta({ views: join(dirname, "views") });
-
+export function posts(eta: Eta, dirname: string): Router {
     const router = new Router();
     router.get("/static/:path+", async (ctx) => {
         await ctx.send({
             root: dirname,
         });
     });
-
     router.get("/posts/:slug", (ctx) => {
         ctx.response.body = eta.render("post.eta", {
             title: "title 1",
@@ -77,7 +53,6 @@ async function main() {
             content: "<h2>hewwo wowld</h2>",
         });
     });
-
     router.get("/posts", (ctx) => {
         const page = parseInt(ctx.request.url.searchParams.get("page") ?? "1");
         const posts_per_page = 20;
@@ -94,7 +69,6 @@ async function main() {
             ),
         });
     });
-
     router.get("/", (ctx) => {
         const posts = sort_posts(placeholder_posts());
         const max_recent_posts = 5;
@@ -102,12 +76,5 @@ async function main() {
             recent_posts: posts.slice(0, max_recent_posts),
         });
     });
-    const app = new Application();
-    app.use(router.routes());
-    app.use(router.allowedMethods());
-
-    console.log("running on http://localhost:8000");
-    await app.listen({ port });
+    return router;
 }
-
-main();

@@ -11,7 +11,7 @@
                     { path: "/posts", title: "posts" } 
                 ],
                 rhs_pages: [ 
-                    { path: "/admin", title: "log in" }, 
+                    { path: "/admin", title: "admin" }, 
                 ],
             }) 
         %>
