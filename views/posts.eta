@@ -1,0 +1,22 @@
+<% layout("./base.eta") %>
+<h1 id="top">all posts</h1>
+<%~ include("./post-list.eta", { posts: it.posts }) %>
+<footer>
+  <a href="#top">back to top</a>
+  <span class="divider">::</span>
+  <span>
+    <% if (it.page === 0) { %>
+      <span>previous</span>
+    <% } else { %>
+      <a href="?page=<%= it.page - 1 %>">previous</a>
+    <% } %>
+  </span>
+  <span><%= it.page %> / <%= it.max_page %></span>
+  <span>
+    <% if (it.page === it.max_page) { %>
+      <span>next</span>
+    <% } else { %>
+      <a href="?page=<%= it.page + 1 %>">next</a>
+    <% } %>
+  </span>
+</footer>

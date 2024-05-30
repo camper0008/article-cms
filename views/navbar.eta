@@ -1,0 +1,13 @@
+<nav class="page-center">
+    <span><%= it.title %></span><span>::</span>
+    <ul>
+        <% it.lhs_pages.forEach((page) => { %>
+          <li><a href="<%= page.path %>"><%= page.title %></a></li>
+        <% }) %>
+
+        <div class="divider"></div>
+        <% it.rhs_pages.forEach((page) => { %>
+          <li><a href="<%= page.path %>"><%= page.title %></a></li>
+        <% }) %>
+    </ul>
+</nav>

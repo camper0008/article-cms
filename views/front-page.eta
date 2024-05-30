@@ -1,0 +1,3 @@
+<% layout("./base.eta") %>
+<h1>recent posts</h1>
+<%~ include("./post-list.eta", { posts: it.recent_posts }) %>

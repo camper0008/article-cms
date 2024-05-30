@@ -1,0 +1,10 @@
+<ul class="post-list">
+    <% it.posts.forEach((post) => { %>
+      <li>
+        <%= post.title %>
+        <span class="date">(<%= post.pretty_date %>)</span>
+        <br>
+        <a href="/posts/<%= post.slug %>">[read more]</a>
+      </li>
+    <% }) %>
+</ul>

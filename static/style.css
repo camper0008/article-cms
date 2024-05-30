@@ -1,0 +1,84 @@
+:root {
+    color-scheme: light dark;
+    --brand-font: "Liberation Mono", monospace;
+}
+
+a {
+    text-decoration: none;
+}
+
+.page-center {
+    max-width: 1000px;
+    margin-inline: auto;
+}
+#content {
+    padding: 1rem;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+nav {
+    font-size: 1.2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block: 1rem;
+    border-bottom: 1px dotted currentColor;
+}
+
+hr {
+    border-style: dotted;
+}
+
+nav > * {
+    font-family: var(--brand-font);
+    margin: 0;
+    font-size: 1em;
+}
+
+nav ul {
+    padding: 0;
+    font-size: 1em;
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+nav .divider,
+nav ul {
+    flex: 1;
+}
+
+ul {
+    font-size: 1.3em;
+    list-style: "- "
+}
+
+.divider {
+    font-family: var(--brand-font);
+}
+
+.post-list li {
+    padding-bottom: 1.2rem;
+}
+
+.date {
+    font-weight: normal;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+.post-list li a {
+    padding: 0.25rem;
+    padding-left: 1rem;
+    display: block;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.2em;
+}
