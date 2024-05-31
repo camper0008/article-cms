@@ -102,7 +102,7 @@ async function extract_admin_page_mode(
 
                     return Ok({
                         mode: "edit",
-                        api_url: "/admin/api/edit",
+                        api_url: "/admin/api/update",
                         post,
                     });
                 }
