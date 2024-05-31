@@ -4,7 +4,7 @@
         <%= post.title %>
         <span class="date">(<%= post.pretty_date %>)</span>
         <br>
-        <a href="/posts/<%= post.slug %>">[read more]</a>
+        <a href="/posts/<%= post.id %>/<%= post.slug %>">[read more]</a>
       </li>
     <% }) %>
 </ul>

@@ -5,7 +5,7 @@
   <a href="#top">back to top</a>
   <span class="divider">::</span>
   <span>
-    <% if (it.page === 0) { %>
+    <% if (it.page === 1) { %>
       <span>previous</span>
     <% } else { %>
       <a href="?page=<%= it.page - 1 %>">previous</a>

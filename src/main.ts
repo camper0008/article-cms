@@ -3,6 +3,7 @@ import { Application, Router } from "https://deno.land/x/oak@v16.0.0/mod.ts";
 import * as routes from "./routes/mod.ts";
 import { log } from "./utils/log.ts";
 import { join } from "https://deno.land/std@0.224.0/path/mod.ts";
+import { FileDb } from "./db/file_db.ts";
 
 interface AppState {
     eta: Eta;
@@ -21,9 +22,10 @@ async function main() {
             eta,
         },
     });
+    const db = new FileDb(join(Deno.cwd(), "file_db"));
     const router = new Router<AppState>();
-    router.use(routes.admin(eta).routes());
-    router.use(routes.posts(eta, dirname).routes());
+    router.use(routes.admin(db, eta).routes());
+    router.use(routes.posts(db, eta, dirname).routes());
     app.use(router.routes());
 
     console.log("running on http://localhost:8000");

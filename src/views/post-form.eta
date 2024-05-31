@@ -1,0 +1,24 @@
+<form id="form" action="<%= it.api_url %>" method="POST">
+    <% if (it.edit_post) { %>
+        <input type="hidden" name="id" value="<%= it.edit_post.id %>">
+    <% } %>
+    <label for="title"><p>title</p></label>
+    <input type="text" id="title" name="title" value="<%= it.edit_post?.id ?? "" %>">
+    <label for="content"><p>content</p></label>
+    <textarea name="content" id="content"><%= it.edit_post?.md_content ?? "" %></textarea>
+    <p><input type="submit"></p>
+</form>
+
+<script>
+    const form = document.getElementById("form");
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const body = JSON.stringify(Object.fromEntries(formData));
+        await fetch("<%= it.api_url %>", {
+            body,
+            method: "POST",
+            headers: new Headers({ "Content-Type": "application/json" })
+        });
+    })
+</script>

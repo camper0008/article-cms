@@ -1,3 +1,5 @@
+import { Result } from "../utils/result.ts";
+
 export type IsoTimestamp = string;
 
 export type Id = string;
@@ -10,17 +12,21 @@ export interface Post {
     created: IsoTimestamp;
 }
 
-export type Result<T, E> = { ok: true; value: T } | { ok: false; error: E };
-
 export type SortedBy = "created" | "none";
 
+export type CreatePost = Omit<Post, "id">;
+
+export type UpdatePost = Omit<Post, "created">;
+
 export interface Db {
+    total_posts(): Promise<Result<number, string>>;
     posts(
         offset: number,
         limit: number,
         sorted_by: SortedBy,
     ): Promise<Result<Post[], string>>;
-    create_post(post: Omit<Post, "id">): Promise<Result<Id, string>>;
-    update_post(post: Post): Promise<Result<null, string>>;
+    post_with_id(id: Id): Promise<Result<Post, string>>;
+    create_post(post: CreatePost): Promise<Result<Id, string>>;
+    update_post(post: UpdatePost): Promise<Result<null, string>>;
     delete_post(id: Id): Promise<Result<null, string>>;
 }

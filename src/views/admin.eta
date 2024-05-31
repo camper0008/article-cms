@@ -1,16 +1,74 @@
 <% layout("base.eta") %>
 
 <% if (!it.mode) { %>
-<h1>admin</h1>
-<ul>
-    <li>
-        <a href="?mode=create">new post</a>
-    </li>
-    <li>
-        <a href="?mode=edit">edit post</a>
-    </li>
-</ul>
+    <h1>admin</h1>
+    <ul>
+        <li>
+            <a href="?mode=create">new post</a>
+        </li>
+        <li>
+            <a href="?mode=edit">edit post</a>
+        </li>
+        <li>
+            <a href="?mode=delete">delete post</a>
+        </li>
+    </ul>
 <% } else { %>
-<h1><%= it.mode %> post</h1>
+    <a href="?mode=null">back</a>
+    <h1 id="top"><%= it.mode %> post</h1>
+    <% if ((it.mode === "edit" || it.mode === "delete") && !it.post) { %>
+        <ul class="post-list">
+            <% it.posts.forEach((post) => { %>
+              <li>
+                <%= post.title %>
+                <span class="date">(<%= post.pretty_date %>)</span>
+                <br>
+                <a href="?mode=<%= it.mode %>&id=<%= post.id %>">[<%=it.mode %> post]</a>
+              </li>
+            <% }) %>
+        </ul>
+        <footer>
+          <a href="#top">back to top</a>
+          <span class="divider">::</span>
+          <span>
+            <% if (it.page === 1) { %>
+              <span>previous</span>
+            <% } else { %>
+              <a href="?page=<%= it.page - 1 %>">previous</a>
+            <% } %>
+          </span>
+          <span><%= it.page %> / <%= it.max_page %></span>
+          <span>
+            <% if (it.page === it.max_page) { %>
+              <span>next</span>
+            <% } else { %>
+              <a href="?page=<%= it.page + 1 %>">next</a>
+            <% } %>
+          </span>
+        </footer>
+    <% } else if (it.mode === "delete") { %>
+        <h2>Are you sure you want to delete <%= it.post %>?</h2>
+        <form id="form" action="<%= it.api_url %>" method="POST">
+            <input type="hidden" name="id" value="<%= it.post %>">
+            <p><input type="submit"></p>
+        </form>
+
+        <script>
+            const form = document.getElementById("form");
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const formData = new FormData(form);
+                const body = JSON.stringify(Object.fromEntries(formData));
+                await fetch("<%= it.api_url %>", {
+                    body,
+                    method: "POST",
+                    headers: new Headers({ "Content-Type": "application/json" })
+                });
+            })
+        </script>
+    <% } else { %>
+        <%~ include("post-form.eta", { mode: it.mode, edit_post: it.post, api_url: it.api_url }) %>
+    <% } %>
+
 <% } %>
 
